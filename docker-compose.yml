@@ -1,0 +1,109 @@
+services:
+  postgres:
+    image: timescale/timescaledb:latest-pg14
+    environment:
+      - POSTGRES_USER=bot
+      - POSTGRES_PASSWORD=bot1234
+      - POSTGRES_DB=crypto_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./volumes/postgres-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=marcelmartino2053@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=admin123
+     # Add this to prevent lockouts
+      - PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED=False
+      - PGADMIN_CONFIG_LOGIN_BANNER="Welcome to PgAdmin"
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+  mongo:
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=bot  # Match .env MONGO_USER
+      - MONGO_INITDB_ROOT_PASSWORD=bot1234  # Match .env MONGO_PASSWORD
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./volumes/mongo-data:/data/db
+    networks:
+      - app-network
+
+  celery_worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.celery
+    volumes:
+      - ./:/app
+    depends_on:
+      - postgres
+      - redis
+      - mongo
+    environment:
+      - PG_HOST=postgres
+      - PG_PORT=5432
+      - PG_USER=bot
+      - PG_PASSWORD=bot1234
+      - PG_DATABASE=crypto_db
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - MONGO_HOST=mongo
+      - MONGO_PORT=27017
+      - MONGO_USER=bot  # Match .env
+      - MONGO_PASSWORD=bot1234
+      - MONGO_AUTH_SOURCE=admin
+      - MONGO_DB=tgbot_db
+      - PYTHONPATH=/app
+      - MONGO_COLLECTION_NAME=dexscreener_data
+    command: celery -A scripts.price_tracker.celery_app worker --loglevel=info
+    networks:
+      - app-network
+
+  celery_beat:
+    build:
+      context: .
+      dockerfile: Dockerfile.celery
+    volumes:
+      - ./:/app
+    depends_on:
+      - postgres
+      - redis
+      - mongo
+    environment:
+      - PG_HOST=postgres
+      - PG_PORT=5432
+      - PG_USER=bot
+      - PG_PASSWORD=bot1234
+      - PG_DATABASE=crypto_db
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - MONGO_HOST=mongo
+      - MONGO_PORT=27017
+      - MONGO_USER=bot
+      - MONGO_PASSWORD=bot1234
+      - MONGO_COLLECTION_NAME=dexscreener_data
+      - PYTHONPATH=/app
+    command: celery -A scripts.price_tracker.celery_app beat --loglevel=info
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

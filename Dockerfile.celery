@@ -1,0 +1,25 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpq-dev \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+COPY requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Set Python path
+ENV PYTHONPATH=/app
+ENV MONGO_HOST=mongo
+ENV MONGO_PORT=27017
+ENV MONGO_USER=bot
+ENV MONGO_PASSWORD=bot1234
+ENV MONGO_AUTH_SOURCE=admin
+ENV MONGO_DB=tgbot_db
+# Default command will be overridden by docker-compose
+CMD ["celery", "--version"]

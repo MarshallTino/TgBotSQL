@@ -1,0 +1,6 @@
+mongo-data/
+postgres-data/
+__pycache__/
+*.pyc
+*.log
+env/
