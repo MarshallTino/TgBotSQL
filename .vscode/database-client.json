@@ -1,0 +1,30 @@
+{
+    "database.connections": {
+        "postgres-tg-bot": {
+            "connectionMethod": "PasswordAuthentication",
+            "host": "localhost",
+            "port": 5432,
+            "user": "bot",
+            "password": "bot1234",
+            "database": "crypto_db",
+            "savePassword": true,
+            "connectionType": "PostgreSQL",
+            "timezone": "+00:00",
+            "usingSSH": false,
+            "global": true,
+            "hideSystemSchema": true
+        },
+        "mongodb-tg-bot": {
+            "connectionMethod": "PasswordAuthentication",
+            "host": "localhost",
+            "port": 27017,
+            "user": "bot",
+            "password": "bot1234",
+            "authenticationDatabase": "admin",
+            "database": "tgbot_db",
+            "connectionType": "MongoDB",
+            "useSSL": false,
+            "global": true
+        }
+    }
+}

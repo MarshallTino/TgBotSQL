@@ -1,4 +1,14 @@
 {
+  "peacock.remoteColor": "red",
+  "git.ignoreLimitWarning": true,
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true,
+  "editor.formatOnSave": true,
+  "python.formatting.provider": "autopep8",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.python",
+    "editor.formatOnSave": true
+  },
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#ff3333",
     "activityBar.background": "#ff3333",
@@ -17,7 +27,5 @@
     "titleBar.activeForeground": "#e7e7e7",
     "titleBar.inactiveBackground": "#ff000099",
     "titleBar.inactiveForeground": "#e7e7e799"
-  },
-  "peacock.remoteColor": "red",
-  "git.ignoreLimitWarning": true
+  }
 }

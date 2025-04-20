@@ -72,7 +72,9 @@ services:
       - MONGO_DB=tgbot_db
       - PYTHONPATH=/app
       - MONGO_COLLECTION_NAME=dexscreener_data
-    command: celery -A scripts.price_tracker.celery_app worker --loglevel=info
+    command: >
+      bash -c "python /app/scripts/price_tracker/docker_test.py &&
+      celery -A scripts.price_tracker.celery_app worker --loglevel=debug"
     networks:
       - app-network
 

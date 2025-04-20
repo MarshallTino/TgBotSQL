@@ -3,8 +3,23 @@
 # -----------------------------------------------------------------------------
 __pycache__/
 *.py[cod]
-*.egg-info
+*$py.class
+*.so
+*.egg-info/
 *.egg
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+.installed.cfg
 .envrc
 .venv/
 venv/
@@ -12,26 +27,44 @@ venv/
 *.swp
 *.swo
 *.bak
-postgres-data/
-tg_env/
-.docker/
+
 # -----------------------------------------------------------------------------
-# 2) Virtual environments (your local environment folder name)
+# 2) Virtual environments & IDE
 # -----------------------------------------------------------------------------
 tg_env/
 env/
 venv/
-.idea/  # If using PyCharm
-.vscode/  # If using VS Code (optional or partial if you want shared settings)
+ENV/
+.env/
+.idea/  # PyCharm
+.vscode/  # VS Code
+*.sublime-workspace  # Sublime Text
+*.sublime-project  # Sublime Text
+.ipynb_checkpoints/  # Jupyter Notebook
+.spyderproject  # Spyder
+.spyproject  # Spyder
+.ropeproject  # Rope
+.project  # Eclipse
+.cproject  # Eclipse
+.settings/  # Eclipse
+.classpath  # Eclipse
 
 # -----------------------------------------------------------------------------
 # 3) OS-Specific Junk
 # -----------------------------------------------------------------------------
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
+Icon?
+.tgbot_history
+desktop.ini
 
 # -----------------------------------------------------------------------------
-# 4) Logs and coverage
+# 4) Logs, databases, and cache
 # -----------------------------------------------------------------------------
 logs/
 *.log
@@ -39,28 +72,68 @@ coverage/
 coverage.*
 .coverage
 htmlcov/
+.pytest_cache/
+.mypy_cache/
+.cache/
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.nox/
+.tox/
 
 # -----------------------------------------------------------------------------
 # 5) Docker volumes, images, etc.
 # -----------------------------------------------------------------------------
 volumes/
 docker-compose.override.yml
+postgres-data/
+mongo-data/
+redis-data/
+.docker/
 
 # -----------------------------------------------------------------------------
 # 6) Local environment/config 
 # -----------------------------------------------------------------------------
 .env
+.env.*
 *.local
 *.secret
+config.local.py
 session/
-session_name.session  # If you have a file containing secrets
+session_name.session
+*.session
+*.session-journal
+tg_session*
+*.session.bak
 
 # -----------------------------------------------------------------------------
-# 7) Misc. 
+# 7) Database and dump files
 # -----------------------------------------------------------------------------
-*.lock
-*.pid
 *.sqlite3
+*.sqlite
+*.db
+dump.rdb
+celerybeat-schedule
+celerybeat.pid
+*.dump
+*.sql
+!schema.sql
+!sql/*.sql  # Don't ignore SQL query files in the sql/ directory
 
-# If you have more local or generated folders/files to exclude, add them below.
+# -----------------------------------------------------------------------------
+# 8) Project specific exclusions
+# -----------------------------------------------------------------------------
+# pgadmin data
+pgadmin/
+
+# Telethon and bot specific files
+.telethon_session
+celerybeat-schedule.*
+
+# -----------------------------------------------------------------------------
+# 9) Documentation builds
+# -----------------------------------------------------------------------------
+/docs/_build/
+/site/
 
